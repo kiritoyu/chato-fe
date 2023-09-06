@@ -1,0 +1,185 @@
+// 容器设定一次 box-sizing，就可以改变所有后代的 box-sizing，同时又不影响其它元素
+* {
+  box-sizing: inherit;
+}
+pre {
+  margin: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+h7 {
+  margin: 0;
+}
+
+// 从最顶层开始设置 100% 高度，允许页面全高布局
+html,
+body {
+  height: 100%;
+  overflow-y: auto;
+}
+
+* {
+  &:focus {
+    outline: none;
+  }
+
+  &:focus-visible {
+    outline: none;
+  }
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  width: 6px;
+  background: transparent;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #f2f3f5;
+  background-clip: padding-box;
+  min-height: 28px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #cecece;
+}
+
+a {
+  text-decoration: none;
+}
+
+body {
+  // 受 Element 影响，决定尝试一下 line-height = 1 的布局方式
+  font: 16px/1 Source Han Sans CN, 'Helvetica Neue', Arial, sans-serif;
+  color: var(--el-text-color-primary);
+  // color: #606266;	// Element Plus 常规文本颜色
+  // background-color: #eef0f3;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.cm-link {
+  color: $color-link;
+  text-decoration: none;
+  &:hover {
+    text-decoration: underline;
+  }
+}
+.cm-link-preview {
+  color: var(--el-table-text-color);
+}
+
+.description {
+  font-size: $fs-xs;
+  line-height: $lh;
+  color: $color-minor;
+}
+
+.error {
+  color: #f56c6c !important;
+}
+
+.form-item-extra {
+  @apply flex items-start justify-between;
+  flex-flow: row-reverse;
+  margin-top: 12px;
+  width: 100%;
+  line-height: $lh;
+  color: $color-minor;
+  font-size: $fs-xs;
+  .char-count {
+    margin-left: 1.5em;
+    white-space: nowrap;
+    &.error {
+      color: $color-error;
+    }
+  }
+  .description {
+    font-size: $fs-xs;
+  }
+}
+
+/* 定义 router-link 的默认样式 */
+.theme-color {
+  color: #7c5cfc;
+  text-decoration: none;
+}
+
+/* 定义激活的 router-link 的样式 */
+.theme-color.active {
+  font-weight: bold;
+}
+
+.dialog-box-container {
+  .el-dialog__body {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+  }
+}
+
+.default-avatar {
+  position: relative;
+  cursor: pointer;
+  &:hover {
+    &::after {
+      position: absolute;
+      left: 0;
+      top: 0;
+      display: inline-block;
+      content: '替换';
+      width: 48px;
+      height: 48px;
+      line-height: 48px;
+      text-align: center;
+      z-index: 999;
+      color: #fff;
+      border-radius: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+    }
+  }
+}
+
+.custom-select {
+  --el-border-color: transparent;
+  --el-border-color-hover: transparent;
+  --el-select-disabled-border: transparent;
+  --el-select-input-focus-border-color: transparent;
+}
+.custom-select .el-select__caret {
+  border-color: transparent;
+}
+
+.custom-select .el-input__inner {
+  color: #3d3d3d !important;
+}
+
+.custom-select .el-input {
+  border: none;
+  border-color: transparent;
+  box-shadow: none;
+}
+
+.custom-select .el-input.is-focus .el-input__wrapper {
+  box-shadow: none !important;
+}
+
+.work-break {
+  word-break: break-word;
+}

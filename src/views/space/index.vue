@@ -1,0 +1,26 @@
+<template>
+  <Topbar title="空间权益" />
+  <div class="page-body-container">
+    <div class="page-center-container page-content-container">
+      <el-tabs v-model="activeTab" class="chato-tab">
+        <el-tab-pane v-for="item in tabsList" :key="item.key" :label="item.label" :name="item.key">
+          <component :is="item.component" />
+        </el-tab-pane>
+      </el-tabs>
+    </div>
+  </div>
+</template>
+
+<script setup lang="ts">
+import Topbar from '@/components/Topbar/index.vue'
+import { ref } from 'vue'
+import SpaceRights from './components/SpaceRights.vue'
+import personalSpace from './personalSpace.vue'
+
+const tabsList = [
+  { label: '版本权益', key: 'rights', component: SpaceRights },
+  { label: '成员设置', key: 'users', component: personalSpace }
+]
+
+const activeTab = ref('rights')
+</script>

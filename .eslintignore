@@ -1,0 +1,10 @@
+node_modules/
+dist/
+assets/
+*.d.ts
+*.svg
+*.svg?component
+*.svg?url
+*.scss
+*.less
+*.css

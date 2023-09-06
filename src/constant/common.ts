@@ -1,0 +1,35 @@
+export const FULL_SITE_NAME = 'Chato - 基于AI技术 轻松创建对话机器人'
+export const SITE_NAME = 'Chato'
+
+export const UPLOAD_FILE_TYPES = [
+  '.pdf',
+  // '.doc',
+  '.docx',
+  '.txt',
+  '.pptx',
+  '.epub',
+  '.md',
+  '.csv',
+  '.mobi',
+  // '.xls',
+  '.xlsx'
+  // '.ppt',
+  // '.pptx',
+]
+
+export const UPLOAD_TEMPLATE_FILE_TYPES = ['.xls', '.xlsx']
+
+export const USER_ROLES = {
+  SUPERMAN: 'superman',
+  OWNER: 'owner',
+  MEMBER: 'member',
+  ADMIN: 'admin'
+}
+
+export const MANGER_ROLES = ['superman', 'owner', 'admin']
+
+export const EMAIL_REG =
+  /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+
+export const MOBILE_REG =
+  /^(?:(?:\+|00)86)?1(?:(?:3[\d])|(?:4[5-79])|(?:5[0-35-9])|(?:6[5-7])|(?:7[0-8])|(?:8[\d])|(?:9[1589]))\d{8}$/

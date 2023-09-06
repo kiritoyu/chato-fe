@@ -1,0 +1,45 @@
+// text
+$fs-xl: 20px;
+$fs-l: 18px;
+$fs: 16px;
+$fs-s: 14px;
+$fs-xs: 12px;
+$lh: 1.25;
+$lh-text: 1.5;
+
+// color
+$color: #303133;
+$color-minor: #9da3af;
+$color-light: #ccc;
+$color-dark: black;
+$color-link: #7c5cfc; // Element Plus 链接文本颜色
+$color-primary: #7c5cfc; // Element Plus 主色调
+$color-splitter: #eee;
+$color-error: #f56c6c; // Element Plus 错误文本颜色
+$color-hr: #ddd;
+$color-placeholder: #ccc;
+
+$bg-color: white;
+$bg-color-stage: #f6f7f9;
+$bg-color-hover: #f4f1ff;
+$bg-color-code: #eee;
+
+// layout
+$page-padding: 8px;
+$box-padding: 32px;
+$box-padding-narrow: 16px;
+$box-corner-radius: 10px;
+
+@forward 'element-plus/theme-chalk/src/common/var.scss' with (
+  $colors: (
+    'primary': (
+      'base': #7c5cfc
+    )
+  ),
+  $menu: (
+    'text-color': #b5bed0,
+    'active-color': #fff,
+    'hover-bg-color': #272f48,
+    'hover-text-color': #fff
+  )
+);

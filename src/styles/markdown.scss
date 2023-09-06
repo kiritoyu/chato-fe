@@ -1,0 +1,121 @@
+/* 复制按钮样式 */
+
+.common-span {
+  position: absolute;
+  padding: 0.5em 0.7em;
+  color: rgba(217, 217, 227, 1);
+  font-size: 0.8em;
+  cursor: pointer;
+}
+.top-set-bg {
+  background-color: rgba(52, 53, 65, 1);
+  position: absolute;
+  top: 0;
+  width: 100%;
+  left: 0;
+}
+
+.hljs {
+  color: #adbac7 !important;
+}
+
+pre .token.operator {
+  background-color: transparent !important;
+}
+
+.copy-button {
+  // display: none;
+  right: 0;
+  top: 0;
+}
+
+/* 语法类型标签样式 */
+.language {
+  display: none;
+  bottom: 0;
+  right: 0;
+}
+
+.markdown-body pre {
+  background-color: #272822 !important;
+}
+
+.copy-btn-code .text {
+  position: fixed;
+  top: 10000px;
+  opacity: 0;
+  visibility: hidden;
+}
+
+/* 高亮代码样式 */
+pre {
+  position: relative;
+  // padding: 1rem;
+  overflow-x: auto;
+  background-color: #272822;
+  color: #abb2bf;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+pre code {
+  font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+  font-size: 0.9em;
+}
+
+:root
+
+/* 增加权重以便覆盖库的样式 */
+.markdown-body {
+  color: inherit;
+  white-space: normal;
+  background-color: transparent;
+  pre {
+    background-color: #272822 !important;
+  }
+  pre code {
+    tab-size: 4;
+  }
+
+  table {
+    width: auto;
+  }
+  img {
+    width: 90px;
+    height: 90px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    float: left;
+    border-radius: 4px;
+  }
+
+  li {
+    ul,
+    ol {
+      margin-top: 0.25em;
+    }
+  }
+
+  h1 {
+    font-size: 1.5em;
+  }
+
+  h2 {
+    font-size: 1.25em;
+  }
+
+  h3 {
+    font-size: 1.1em;
+  }
+
+  ol,
+  ul {
+    list-style-type: revert;
+  }
+
+  hr {
+    height: 1px;
+    margin: 16px 0;
+    background-color: #d2d8e5;
+  }
+}

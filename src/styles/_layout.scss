@@ -1,0 +1,42 @@
+#app {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  padding-bottom: constant(safe-area-inset-bottom); /* 兼容 iOS < 11.2 */
+  padding-bottom: env(safe-area-inset-bottom); /* 兼容 iOS >= 11.2 */
+}
+
+$centerContentWidth: 80%;
+
+.page-body-container {
+  height: 100%;
+  overflow-y: auto;
+}
+
+.page-center-container {
+  width: $centerContentWidth;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.page-content-container {
+  padding-bottom: 32px;
+  min-height: 100%;
+  height: auto;
+}
+
+.home-center-padding {
+  @apply px-[13%] lg:px-[5%];
+}
+
+@media only screen and (max-width: 1024px) {
+  // 内容居中对齐手机端
+  .page-center-container {
+    width: 100%;
+    padding: 0 16px;
+  }
+
+  .page-content-container {
+    padding-bottom: 16px;
+  }
+}

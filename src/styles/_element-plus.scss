@@ -1,0 +1,54 @@
+// 这里放一些修正 Element Plus 的样式
+.el-notification {
+  z-index: 9999 !important;
+}
+
+.el-date-editor .el-range-separator {
+  width: 10%;
+}
+
+// 这里放一些增强 Element Plus 的样式
+// 响应式按钮
+.el-col .el-button {
+  width: 100%;
+}
+
+.el-button + .el-button {
+  margin-left: 0 !important;
+}
+
+.el-message-box__btns {
+  .el-button + .el-button {
+    margin-left: 12px !important;
+  }
+}
+
+.chato-tab {
+  .el-tabs__item {
+    color: #596780;
+    font-weight: 400;
+
+    &.is-active {
+      color: #303133;
+      font-weight: 500;
+    }
+
+    &:hover {
+      color: #303133;
+    }
+  }
+
+  .el-tabs__nav-wrap::after {
+    background-color: transparent;
+  }
+
+  .el-tabs__active-bar {
+    background-color: #303133;
+  }
+}
+
+.el-dialog__footer {
+  .el-button + .el-button {
+    margin-left: 12px !important;
+  }
+}
