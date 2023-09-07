@@ -31,12 +31,7 @@
           {{ $t('将企业ID信息，粘贴在下方输入框') }}
         </p>
       </WeixinInput>
-      <WeixinText
-        v-if="index === 2 && $notnull(config)"
-        :index="index"
-        @handleCopy="(e: string) => emit('handleCopy', e)"
-        :list="config"
-      >
+      <WeixinText v-if="index === 2 && $notnull(config)" :index="index" :list="config">
         <template v-slot:top>
           <p class="text-[#303133]">
             {{ $t('第二步：复制以下信息，并填入微信后台') }}
@@ -52,7 +47,6 @@
           <WeixinBtn
             :disabled="false"
             :btnText="$t(`确认，并下一步`)"
-            @handleCopy="(e: string) => emit('handleCopy', e)"
             @handleCancle="handleCancle"
             @handleBtn="() => handleBtn(3)"
           />
@@ -72,11 +66,7 @@
           {{ $t('第三步：复制Secret信息，并填入下面输入框') }}
         </p>
       </WeixinInput>
-      <WeixinText
-        v-if="index === 4 && $notnull(config)"
-        :list="config"
-        @handleCopy="(e: string) => emit('handleCopy', e)"
-      >
+      <WeixinText v-if="index === 4 && $notnull(config)" :list="config">
         <template v-slot:top>
           <p class="mb-[16px]">
             <el-switch
@@ -122,9 +112,9 @@ const { ImagePath: weixinServiceImg2 } = useImagePath('weixin-service-2', 'relea
 const { ImagePath: weixinServiceImg3 } = useImagePath('weixin-service-3', 'release')
 const props = defineProps<{
   value: boolean
-  domain_slug: string
+  domainSlug: string
 }>()
-const emit = defineEmits(['update:value', 'handleCopy'])
+const emit = defineEmits(['update:value'])
 const visible = computed({
   get: () => props.value,
   set: (val) => emit('update:value', val)
@@ -163,7 +153,7 @@ const submitAppId = async (
     loading.value = true
     const {
       data: { data }
-    } = await call(props.domain_slug, e)
+    } = await call(props.domainSlug, e)
     config.value = { ...config.value, ...data }
     return true
   } catch (e) {
@@ -184,7 +174,7 @@ const handleChange = async () => {
   try {
     const {
       data: { data }
-    } = await patchChannelType(EChannelType.WECHAT_KF, props.domain_slug, patchData)
+    } = await patchChannelType(EChannelType.WECHAT_KF, props.domainSlug, patchData)
     config.value = data
   } catch (e) {}
 }
@@ -199,7 +189,7 @@ const init = async () => {
     loading.value = true
     const {
       data: { data }
-    } = await getChannelType(EChannelType.WECHAT_KF, props.domain_slug)
+    } = await getChannelType(EChannelType.WECHAT_KF, props.domainSlug)
     config.value = data || {}
   } catch (e) {
   } finally {

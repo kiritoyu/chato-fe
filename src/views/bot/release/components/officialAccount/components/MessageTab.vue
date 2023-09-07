@@ -55,6 +55,9 @@
           />
           <p class="text-sm">{{ $t('服务器配置') }}</p>
           <p class="mt-[8px] text-[#9DA3AF]">
+            {{ $t('公众号后台启用后，请在微信公众号后台复制IP白名单') }}
+          </p>
+          <p class="mt-[8px] text-[#9DA3AF]">
             {{ $t('复制下方信息，在后台修改配置时粘贴') }}
           </p>
           <div
@@ -139,7 +142,7 @@ import { AfficialAccountStatusType } from '@/enum/release'
 import type { createAfficialAccountRes } from '@/interface/release'
 import type { FormInstance, FormRules } from 'element-plus'
 import { ElMessageBox } from 'element-plus'
-import { onMounted, onUnmounted, reactive, ref, watch } from 'vue'
+import { onMounted, reactive, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
@@ -227,7 +230,7 @@ const handleCloseMessage = () => {
   }
 }
 
-const watchProps = watch(
+watch(
   () => MessageTabForm.status,
   (v) => {
     submitForm()
@@ -237,13 +240,11 @@ const watchProps = watch(
 onMounted(() => {
   init()
 })
-onUnmounted(() => {
-  watchProps()
-})
 </script>
 <style lang="scss" scoped>
 .afficialAccountList-item {
   margin-top: 10px;
+
   p {
     margin-bottom: 5px;
   }
