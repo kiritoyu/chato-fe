@@ -488,7 +488,7 @@ const releaseList = [
   {
     icon: 'feishu-public',
     title: t('飞书'),
-    desc: t('在飞书群聊中提供机器人服务'),
+    desc: t('在飞书群/单聊中提供机器人服务，仅限内部员工使用'),
     setList: [
       {
         icon: Tools,
@@ -501,7 +501,7 @@ const releaseList = [
   {
     icon: 'weixin-service',
     title: t('微信客服'),
-    desc: t('通过配置微信客服，实现与机器人1V1聊天'),
+    desc: t('使用企微回复用户在微信咨询的消息，扫码即可实现与机器人1V1聊天'),
     setList: [
       {
         icon: Tools,
@@ -631,7 +631,6 @@ onMounted(() => {
       :chatScript="chatScript"
       :sitesList="sitesList"
       @handleUpSitesList="initSitesList"
-      @handleCopyCode="copyPaste"
     >
     </DrawerSite>
     <OfficialAccont
@@ -678,28 +677,11 @@ onMounted(() => {
       :robotQrCodeInfo="robotQrCodeInfo"
       @submitCreatePublic="submitCreatePublic"
     />
-    <SerachApi
-      v-model:value="showCopyApiVisible"
-      :chatAPI="domainInfo.token"
-      :slug="botSlug"
-      @handleCopyApiUrl="copyPaste"
-    />
-    <Copylink
-      v-model:value="showCopyLinkVisbile"
-      :chatWebPage="chatReleaseURL.chatWebPage"
-      @handleCopyLink="copyPaste(chatReleaseURL.chatWebPage)"
-    />
-    <CreateFeishu
-      :slug="domainInfo.slug"
-      @handleCopyUrl="(e) => copyPaste(e)"
-      v-model:value="feiShuVisible"
-    />
-    <WeixinService
-      v-model:value="weixinService"
-      @handleCopy="copyPaste"
-      :domain_slug="domainInfo.slug"
-    />
-    <EmPower v-model:value="tiktokService" :domain_slug="botSlug" />
+    <SerachApi v-model:value="showCopyApiVisible" :chatAPI="domainInfo.token" :slug="botSlug" />
+    <Copylink v-model:value="showCopyLinkVisbile" :chatWebPage="chatReleaseURL.chatWebPage" />
+    <CreateFeishu :slug="domainInfo.slug" v-model:value="feiShuVisible" />
+    <WeixinService v-model:value="weixinService" :domainSlug="domainInfo.slug" />
+    <EmPower v-model:value="tiktokService" :domainSlug="botSlug" />
   </div>
 </template>
 

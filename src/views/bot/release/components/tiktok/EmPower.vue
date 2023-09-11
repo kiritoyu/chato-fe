@@ -52,7 +52,7 @@ const { t } = useI18n()
 const emit = defineEmits(['update:value'])
 const props = defineProps<{
   value: boolean
-  domain_slug: string
+  domainSlug: string
 }>()
 const tiktokStatus = ref({ s_status: '' })
 const tiktokServiceConfig = ref<string>('') // 抖音配置
@@ -66,14 +66,14 @@ const internalVisible = computed({
 // 授权状态
 const initTiktokStatus = async () => {
   loading.value = true
-  const res = await getChannelType(EChannelType.DOUYIN, props.domain_slug)
+  const res = await getChannelType(EChannelType.DOUYIN, props.domainSlug)
   tiktokStatus.value = res.data.data || {}
   loading.value = false
 }
 
 // 获取抖音配置
 const geTikTokConfig = async () => {
-  const res = await getTitokServiceConfig(props.domain_slug)
+  const res = await getTitokServiceConfig(props.domainSlug)
   tiktokServiceConfig.value = res.data.data.url
 }
 
@@ -89,7 +89,7 @@ const handleEmpower = async (txt: string) => {
       background: 'rgba(0, 0, 0, 0.7)'
     })
     try {
-      const res = await patchChannelType(EChannelType.DOUYIN, props.domain_slug, {
+      const res = await patchChannelType(EChannelType.DOUYIN, props.domainSlug, {
         s_status: AfficialAccountStatusType.disabled
       })
       tiktokStatus.value = res.data.data || {}

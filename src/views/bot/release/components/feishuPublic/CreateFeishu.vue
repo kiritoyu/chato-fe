@@ -2,11 +2,11 @@
   <Modal
     width="45%"
     mobile-width="95%"
-    :visible="visible"
-    :title="$t(`配置飞书群聊`)"
+    v-model:visible="visible"
+    :title="t('配置飞书群聊')"
     :footer="false"
     class="official-account-container"
-    @cancel="() => emit('update:value', false)"
+    @cancel="visible = false"
   >
     <div v-loading="loading">
       <CreatePublic
@@ -20,7 +20,6 @@
         v-model:ban="ban"
         :url="feishuConfig.url"
         @handleResetConfig="resetConfig = true"
-        @handleCopyUrl="(e) => emit('handleCopyUrl', e)"
       />
     </div>
   </Modal>
@@ -31,12 +30,12 @@ import Modal from '@/components/Modal/index.vue'
 import type { feishuiPublicFormType } from '@/interface/release'
 import { $notnull } from '@/utils/help'
 import { ElLoading } from 'element-plus'
-import { computed, onUnmounted, ref, watch } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import Configpublic from './components/ConfigPublic.vue'
 import CreatePublic from './components/CreatePublic.vue'
 const { t } = useI18n()
-const emit = defineEmits(['update:value', 'handleCopyUrl'])
+const emit = defineEmits(['update:value'])
 const props = defineProps<{
   value: boolean
   slug: string
@@ -77,10 +76,11 @@ const handleSubmit = async (e: feishuiPublicFormType) => {
       data: { data }
     } = await postFeishuConfig(postData)
     feishuConfig.value.url = data.url
+    resetConfig.value = false
   } catch (e) {
+    resetConfig.value = true
   } finally {
     loading.close()
-    resetConfig.value = false
   }
 }
 
@@ -119,7 +119,7 @@ const handleClose = () => {
   resetConfig.value = false
 }
 
-const watchValue = watch(
+watch(
   () => props.value,
   (v) => {
     if (v && !feishuConfig.value.url) {
@@ -132,13 +132,8 @@ const watchValue = watch(
   { immediate: true }
 )
 
-const watchBan = watch(ban, () => {
+watch(ban, () => {
   updateFeishuStatus()
-})
-
-onUnmounted(() => {
-  watchValue()
-  watchBan()
 })
 </script>
 <style lang="scss" scoped>
