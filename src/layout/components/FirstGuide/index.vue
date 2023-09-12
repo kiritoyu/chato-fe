@@ -4,14 +4,18 @@
       <div class="px-[40px]">
         <div class="flex justify-between items-center mb-1 font-medium text-[18px]">
           <span>{{ $t('欢迎加入Chato') }}</span>
-          <span class="text-[14px]">{{ index }}/3</span>
         </div>
         <p class="md:mb-[12px] mb-[32px]">{{ $t('我们将根据你的回答，提供更好地服务') }}</p>
-        <p class="text-sm font-medium md:mb-2 mb-4" v-if="index !== 3">
-          {{ index === 1 ? t('所在行业') : t('预期希望解决的问题') }}
+        <p class="text-sm font-medium md:mb-2 mb-4" v-if="index !== 1">
+          {{ index === 2 ? t('所在行业') : t('预期希望解决的问题') }}
         </p>
-        <AllIndusty
+        <UserIdentity
           v-if="index === 1"
+          :defaultIdentity="userDustyInfo"
+          @handleChange="(e) => (userDustyInfo = e)"
+        />
+        <AllIndusty
+          v-if="index === 2"
           :index="index"
           v-model:value="industyName"
           :currentSelect="currentIndusty"
@@ -20,7 +24,7 @@
           @handleSelect="handleIndusty"
         />
         <AllIndusty
-          v-else-if="index === 2"
+          v-if="index === 3"
           v-model:value="questionName"
           :index="index"
           :currentSelect="curentQuestion"
@@ -28,7 +32,6 @@
           :showUserInput="showInputQustion"
           @handleSelect="handleIndusty"
         />
-        <UserDusty v-else :jobList="jobList" @handleChange="(e) => (userDustyInfo = e)" />
       </div>
 
       <el-row
@@ -36,7 +39,7 @@
         :justify="index === 1 ? 'end' : 'space-between'"
       >
         <el-col class="" :md="12" :xs="12" :sm="12" :lg="6" v-if="[2, 3].includes(index)">
-          <el-button class="justify-start" circle link size="large" @click="index -= 1">
+          <el-button class="justify-start" circle link size="large" @click="handleReduce">
             {{ $t('上一步') }}
           </el-button>
         </el-col>
@@ -56,23 +59,18 @@
 </template>
 
 <script setup lang="ts">
-import { getFirstGuideSelect, postFirstGuideSelect } from '@/api/release'
+import { getFirstGuideSelect, postFirstGuideSelect } from '@/api/userInformation'
 import { useBasicLayout } from '@/composables/useBasicLayout'
 import { useAuthStore } from '@/stores/auth'
 import { useBase } from '@/stores/base'
-import { $notnull } from '@/utils/help'
 import { ElLoading, ElNotification as Notification } from 'element-plus'
 import { storeToRefs } from 'pinia'
-import { computed, onUnmounted, ref, watch } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import AllIndusty from './AllIndusty.vue'
-import UserDusty from './UserDusty.vue'
-
-interface UserDustyInfo {
-  surname: string
-  company: string
-  job: string
-}
+import UserIdentity from './UserIdentity.vue'
+import type { IUserIdentity } from '@/interface/userInformation'
+import { EAllUserOriganization, EUserOriganizationRole } from '@/enum/userInformation'
 
 const baseStoreI = useBase()
 const { isMobile } = useBasicLayout()
@@ -93,16 +91,25 @@ const curentQuestion = ref<string[]>([])
 const questionName = ref<string>('')
 const showInputQustion = ref<boolean>(false)
 // 用户信息
-const jobList = ref<string[]>([])
-const userDustyInfo = ref<UserDustyInfo>()
+const userDustyInfo = ref<Partial<IUserIdentity>>({})
 
 const { t } = useI18n()
-const disabled = computed(() =>
-  index.value === 1 ? !currentIndusty.value : !curentQuestion.value.length
+const userDustyInfoDisabled = computed(
+  () => !userDustyInfo.value?.company && !userDustyInfo.value?.surname
+)
+const disabled = computed(() => {
+  if (index.value === 1) {
+    return userDustyInfoDisabled.value
+  } else {
+    return index.value === 2 ? !currentIndusty.value : !curentQuestion.value.length
+  }
+})
+const isCompanyUser = computed(
+  () => userDustyInfo.value.organization_type !== EUserOriganizationRole.company
 )
 
 const handleIndusty = (item: string, index: number) => {
-  if (index === 1) {
+  if (index === 2) {
     currentIndusty.value = currentIndusty.value === item ? '' : item
     showInputIndusty.value = currentIndusty.value === t('其他') ? true : false
   } else {
@@ -112,16 +119,30 @@ const handleIndusty = (item: string, index: number) => {
   }
 }
 
+const handleReduce = () => {
+  isCompanyUser.value ? (index.value = 1) : (index.value -= 1)
+}
+
 const handleStep = async () => {
-  if (index.value === 1 && !industyName.value && !currentIndusty.value) {
-    return Notification.error(t('请选择您所在行业'))
+  if (index.value === 1) {
+    if (userDustyInfoDisabled.value) {
+      return Notification.error(
+        t(`请输入${EAllUserOriganization[userDustyInfo.value.organization_type]}`)
+      )
+    }
+    if (isCompanyUser.value) {
+      return (index.value = 3)
+    }
   }
-  if (index.value === 2 && !curentQuestion.value.length && !questionName.value) {
-    return Notification.error(t('请选择您预期希望解决的问题'))
+
+  if (index.value === 2 && !industyName.value && !currentIndusty.value) {
+    return Notification.error(t('请选择您所在行业'))
   }
 
   if (index.value === 3) {
-    if ($notnull(userDustyInfo.value) && userDustyInfo.value.job) {
+    if (!curentQuestion.value.length && !questionName.value) {
+      return Notification.error(t('请选择您预期希望解决的问题'))
+    } else {
       try {
         loading.value = ElLoading.service({
           lock: true,
@@ -143,9 +164,6 @@ const handleStep = async () => {
         loading.value.close()
         index.value = 1
       }
-      return
-    } else {
-      return Notification.error(t('请选择您的职位'))
     }
   }
   index.value = index.value + 1
@@ -158,19 +176,14 @@ const init = async () => {
     } = await getFirstGuideSelect()
     industy.value = data.industry
     questions.value = data.interest
-    jobList.value = data.job
     visible.value = true
   } catch (e) {}
 }
 
-const watchUserInfo = watch(userInfo, () => {
-  const showAuth =
-    userInfo.value.id === userInfo.value.org.owner_id && !userInfo.value.org.additions
+watch(userInfo, () => {
+  const contrastId = userInfo.value.id === userInfo.value.org.owner_id
+  const showAuth = contrastId && !userInfo.value.org.additions
   showAuth && !authToken ? init() : (visible.value = false)
-})
-
-onUnmounted(() => {
-  watchUserInfo()
 })
 </script>
 
