@@ -26,7 +26,7 @@
           class="!justify-start"
           class-name="h-[200px] md:w-full md:h-auto"
         />
-        <template>
+        <template v-else>
           <InvitePublicImgCode
             :robotQrCodeInfo="robotQrCodeInfo"
             @handleClose="emit('update:value', false)"
