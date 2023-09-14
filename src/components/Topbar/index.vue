@@ -1,6 +1,13 @@
 <template>
-  <header :class="['flex justify-center', title ? 'mt-10 mb-8 lg:my-4' : 'h-16']">
-    <div class="page-center-container flex gap-2 items-center">
+  <header
+    :class="[
+      'flex',
+      title ? 'mt-10 mb-8 lg:my-4' : 'h-16',
+      center && 'justify-center',
+      slotExtra && 'justify-between'
+    ]"
+  >
+    <div :class="[center && 'page-center-container', 'flex gap-2 items-center']">
       <span
         v-show="isMobile"
         @click="drawerVisible = true"
@@ -11,16 +18,27 @@
       <h3 v-if="title" class="text-[#303133] font-medium text-xl">{{ title }}</h3>
       <slot></slot>
     </div>
+    <slot v-if="!extraInMobile || (extraInMobile && isMobile)" name="extra"></slot>
   </header>
 </template>
 <script setup lang="ts">
 import { useBasicLayout } from '@/composables/useBasicLayout'
 import useSidebar from '@/composables/useSidebar'
+import { useSlots } from 'vue'
 
-defineProps<{
-  title?: string
-}>()
+withDefaults(
+  defineProps<{
+    center?: boolean
+    title?: string
+    extraInMobile?: boolean
+  }>(),
+  {
+    center: true
+  }
+)
 
 const { isMobile } = useBasicLayout()
 const { drawerVisible } = useSidebar()
+
+const slotExtra = !!useSlots().extra
 </script>
