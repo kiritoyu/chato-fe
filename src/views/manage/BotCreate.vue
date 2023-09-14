@@ -28,7 +28,7 @@
       </Topbar>
       <div class="bot-create-center-padding mb-16 flex-1 overflow-y-auto bot-create-block">
         <h3 class="text-[#303133] font-medium text-xl mb-6">{{ t('创建机器人') }}</h3>
-        <div class="inline-block p-4 bg-[#F2F3F5] rounded-lg mb-10">
+        <div class="inline-block p-4 bg-[#F2F3F5] rounded-lg mb-10 lg:block">
           <p class="text-xs text-[#596780] leading-5 mb-3">
             {{ t('通过以下两种方式之一，只要 20 秒即可快速填充基础信息') }}
           </p>
@@ -75,6 +75,7 @@
           type="textarea"
           :rows="6"
           size="large"
+          :limit="HansLimit.system_prompt"
           :disabled="AIGenerateInputDisabled.system_prompt"
           class="w-full mb-8"
         />
@@ -85,12 +86,15 @@
             <template #icon><svg-icon name="document" svg-class="w-4 h-4" /></template>
             {{ t('录入文档') }}
           </el-button>
-          <el-button @click="QAModalVisible = true">
+          <el-button @click="onOpenQAModal">
             <template #icon><svg-icon name="qa" svg-class="w-4 h-4" /></template>
             {{ t('录入问答') }}
           </el-button>
         </div>
-        <div v-loading="uploadFilesListLoading" class="mt-4 mb-8 space-y-3">
+        <div
+          v-loading="uploadFilesListLoading"
+          class="mt-4 mb-8 space-y-3 max-h-[240px] overflow-y-auto"
+        >
           <p
             v-for="item in uploadFilesList"
             :key="item.id"
@@ -123,6 +127,7 @@
           type="textarea"
           :rows="6"
           size="large"
+          :limit="HansLimit.desc"
           :disabled="AIGenerateInputDisabled.desc"
           class="w-full mb-8"
         />
@@ -142,6 +147,7 @@
           type="textarea"
           :rows="6"
           size="large"
+          :limit="HansLimit.welcome"
           :disabled="AIGenerateInputDisabled.welcome"
           class="w-full mb-8"
         />
@@ -190,22 +196,23 @@
     @setSuccess="onCloseEnterModal"
     @closeDialogVisble="onCloseEnterModal"
   />
-  <Modal
+  <el-drawer
     v-if="isMobile"
-    v-model:visible="chatMobileModalVisible"
-    :footer="false"
-    fullscreen
-    class="chat-mobile-modal relative"
+    v-model="chatMobileModalVisible"
+    :with-header="false"
+    size="100%"
+    append-to-body
+    class="chat-mobile-chat-drawer relative"
   >
     <BotCreateChat class="!w-full !h-full" />
-    <el-button
-      :icon="Close"
-      size="large"
-      link
-      class="absolute top-4 right-4 z-[51]"
+    <el-icon
+      :size="24"
+      class="!absolute top-4 right-4 z-[51] !text-[#4F4F4F] cursor-pointer hover:opacity-80"
       @click="chatMobileModalVisible = false"
-    />
-  </Modal>
+    >
+      <Close />
+    </el-icon>
+  </el-drawer>
 </template>
 
 <script setup lang="ts">
@@ -218,7 +225,6 @@ import EnterQa from '@/components/EnterAnswer/EnterQa.vue'
 import type { ImgUplaodProps } from '@/components/ImgUpload/data'
 import ImgUpload from '@/components/ImgUpload/index.vue'
 import HansInputLimit from '@/components/Input/HansInputLimit.vue'
-import Modal from '@/components/Modal/index.vue'
 import SLTitle from '@/components/Title/SLTitle.vue'
 import Topbar from '@/components/Topbar/index.vue'
 import { useBasicLayout } from '@/composables/useBasicLayout'
@@ -238,9 +244,10 @@ import { RoutesMap } from '@/router'
 import { useBase } from '@/stores/base'
 import { getFileStatusName } from '@/utils/formatter'
 import { openPreviewUrl } from '@/utils/help'
+import { getStringWidth } from '@/utils/string'
 import * as url from '@/utils/url'
 import { Close } from '@element-plus/icons-vue'
-import { ElLoading, ElMessageBox, ElNotification } from 'element-plus'
+import { ElLoading, ElMessage, ElMessageBox, ElNotification } from 'element-plus'
 import { isEqual } from 'lodash'
 import { computed, onBeforeUnmount, onMounted, provide, reactive, ref, toRaw, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
@@ -271,10 +278,9 @@ const onLinkBots = () => {
 
 const HansLimit = {
   name: 20,
+  system_prompt: 900,
   desc: 300,
-  welcome: 500,
-  brandName: 40,
-  adText: 100
+  welcome: 500
 }
 const defaultFormState: Partial<IDomainInfo> = {
   id: 0,
@@ -305,7 +311,11 @@ const isFormStateSameTemplate = computed(() => {
   return isEqual({ name, system_prompt, desc, welcome }, originalTemplateFormState)
 })
 const canSave = computed(
-  () => formState.name || formState.system_prompt || formState.desc || formState.welcome
+  () =>
+    (formState.name || formState.system_prompt || formState.desc || formState.welcome) &&
+    !AIGenerateInputDisabled.desc &&
+    !AIGenerateInputDisabled.system_prompt &&
+    !AIGenerateInputDisabled.welcome
 )
 
 const syncOriginalFormState = () => {
@@ -389,13 +399,15 @@ const apiUploadPath = computed(() => {
     doc: `${uri}/document`
   }
 })
-const DOCFormState = ref<IDocumentForm>({})
-let QAFormState = reactive<IQAForm>({
+const defaultQAFormState: IQAForm = {
   title: '',
   question_id: 0,
   content: '',
-  images: []
-})
+  images: [],
+  modalType: EDocumentOperateType.create
+}
+const DOCFormState = ref<IDocumentForm>({})
+let QAFormState = reactive<IQAForm>({ ...defaultQAFormState })
 
 const QAModalVisible = ref(false)
 const DOCModalVisible = ref(false)
@@ -413,6 +425,11 @@ const initFilesList = async () => {
   } finally {
     uploadFilesListLoading.value = false
   }
+}
+
+const onOpenQAModal = () => {
+  QAFormState = Object.assign(QAFormState, { ...defaultQAFormState })
+  QAModalVisible.value = true
 }
 
 let refreshFilesIntervaler = null
@@ -530,8 +547,32 @@ const checkNeedContinueToEdit = () => {
   })
 }
 
+const beforeSaveCheck = () => {
+  let msg = ''
+
+  if (getStringWidth(formState.name) > HansLimit.name) {
+    msg = t('机器人名称不能超过 {limitNum} 字符', { limitNum: HansLimit.name })
+  } else if (getStringWidth(formState.system_prompt) > HansLimit.system_prompt) {
+    msg = t('角色设定不能超过 {limitNum} 字符', { limitNum: HansLimit.system_prompt })
+  } else if (getStringWidth(formState.desc) > HansLimit.desc) {
+    msg = t('角色简介不能超过 {limitNum} 字符', { limitNum: HansLimit.desc })
+  } else if (getStringWidth(formState.welcome) > HansLimit.welcome) {
+    msg = t('欢迎语不能超过 {limitNum} 字符', { limitNum: HansLimit.welcome })
+  }
+
+  if (msg) {
+    ElMessage.warning(msg)
+    return false
+  }
+
+  return true
+}
+
 const onSave = async (type?: 'draft') => {
   try {
+    if (!type && !beforeSaveCheck()) {
+      return
+    }
     loading.value = ElLoading.service({
       lock: true,
       text: t('保存中'),
@@ -620,11 +661,10 @@ onBeforeUnmount(() => {
 </style>
 
 <style lang="scss">
-.chat-mobile-modal {
-  border-radius: 0;
-
-  .el-dialog__body {
+.chat-mobile-chat-drawer {
+  .el-drawer__body {
     padding: 0;
+    overflow: hidden;
     width: 100%;
     height: 100%;
   }
