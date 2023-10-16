@@ -1298,6 +1298,11 @@
     http-errors "^2.0.0"
     node-fetch "^2.6.7"
 
+"@vitejs/plugin-basic-ssl@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.npmmirror.com/@vitejs/plugin-basic-ssl/-/plugin-basic-ssl-1.0.1.tgz#48c46eab21e0730921986ce742563ae83fe7fe34"
+  integrity sha512-pcub+YbFtFhaGRTo1832FQHQSHvMrlb43974e2eS8EKleR3p1cDdkJFPci1UhwkEf1J9Bz+wKBSzqpKp7nNj2A==
+
 "@vitejs/plugin-vue@^4.1.0":
   version "4.2.3"
   resolved "https://registry.npmmirror.com/@vitejs/plugin-vue/-/plugin-vue-4.2.3.tgz"
