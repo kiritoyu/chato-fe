@@ -16,3 +16,20 @@ export interface ITTSItem {
 export interface ITTSList {
   contentList: ITTSItem[]
 }
+
+export interface ITTSListApi {
+  timbres: string[]
+  descriptions: string[]
+}
+
+export interface ITimbreOptions {
+  label: string
+  value: string
+}
+
+export interface ITimbreAuditionApi {
+  exists: boolean
+  provider: string
+  text: string
+  url: string
+}

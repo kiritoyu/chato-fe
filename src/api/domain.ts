@@ -1,4 +1,5 @@
 import type { IDomainInfo, IDomainLLMConfig } from '@/interface/domain'
+import type { ITTSListApi, ITimbreAuditionApi } from '@/interface/tts'
 import request from '@/utils/request'
 
 export function getDomainsByOrgId(orgId) {
@@ -90,5 +91,20 @@ export const createDraftDomain = () => {
 export const domainLLMConfigAPI = () => {
   return request<IDomainLLMConfig[]>({
     url: `/chato/api/v1/config/llm`
+  })
+}
+
+export const getTimbreList = () => {
+  return request<ITTSListApi>({
+    url: `https://test.api.chato.cn/api/tts/timbre`
+  })
+}
+
+export const getTestTimbreUrl = (timbre: String) => {
+  return request<{ contentList: ITimbreAuditionApi[] }>({
+    url: `https://test.api.chato.cn/api/tts/audition`,
+    data: {
+      timbre
+    }
   })
 }
