@@ -13,7 +13,9 @@
         <div
           class="w-12 h-12 flex items-center justify-center rounded-full overflow-hidden shrink-0 bg-[#F2F3F5] lg:w-10 lg:h-10"
         >
-          <el-icon :size="20" class="text-[#596780]"><Plus /></el-icon>
+          <el-icon :size="20" class="text-[#596780]">
+            <Plus />
+          </el-icon>
         </div>
         <p class="font-medium text-sm text-[#7C5CFC]">{{ t('创建机器人') }}</p>
         <p class="text-[#9DA3AF] text-[13px]">{{ t('快速创建一个属于你的机器人吧！') }}</p>
@@ -25,6 +27,7 @@
         @delete="onDelete"
         @cloneRobot="cloneRobot"
         @sync="onOpenSync"
+        @visible="setBotUseScopeDialogVisible"
       />
     </div>
     <el-dialog
@@ -55,9 +58,31 @@
       </template>
     </el-dialog>
   </ContentLayout>
+  <Modal
+    v-model:visible="accessPermissionDialogVisible"
+    title="访问权限"
+    @submit="onSetBotUseScope"
+  >
+    <div>
+      <el-radio-group v-model="opDomain.use_scope">
+        <el-radio v-for="item in visibleOptions" :key="item.value" :label="item.value">
+          {{ t(item.label) }}
+        </el-radio>
+      </el-radio-group>
+      <div class="text-[#9DA3AF] text-xs my-2">
+        {{
+          t(
+            opDomain.use_scope
+              ? '所有人都可以看到你创建的机器人，并可以对其进行操作'
+              : '仅对自己和空间创建者可见，其他人不能看见你的机器人'
+          )
+        }}
+      </div>
+    </div>
+  </Modal>
 </template>
 <script lang="ts" setup>
-import { cloneDomainRobot, updateDomainInResource } from '@/api/domain'
+import { cloneDomainRobot, updateBotUseScope, updateDomainInResource } from '@/api/domain'
 import { deletesDomain } from '@/api/user'
 import Topbar from '@/components/Topbar/index.vue'
 import { useBasicLayout } from '@/composables/useBasicLayout'
@@ -75,6 +100,7 @@ import { onMounted, reactive, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 import BotListCard from './components/BotListCard.vue'
+import Modal from '@/components/Modal/index.vue'
 
 const { t } = useI18n()
 const router = useRouter()
@@ -82,6 +108,7 @@ const chatStoreI = useChatStore()
 const domainStoreI = useDomainStore()
 const loading = ref()
 const initing = ref(false)
+const accessPermissionDialogVisible = ref(false)
 const dialogState = reactive({
   visible: false,
   title: '',
@@ -91,6 +118,31 @@ const dialogState = reactive({
 const { domainList } = storeToRefs(domainStoreI)
 const { checkRightsTypeNeedUpgrade } = useSpaceRights()
 const { isMobile } = useBasicLayout()
+const visibleOptions = [
+  {
+    value: 1,
+    label: '公开'
+  },
+  {
+    value: 0,
+    label: '私密'
+  }
+] as const
+
+const setBotUseScopeDialogVisible = (bot: IDomainInfo) => {
+  accessPermissionDialogVisible.value = true
+  opDomain.value = { ...bot }
+}
+
+const onSetBotUseScope = async () => {
+  try {
+    await updateBotUseScope(opDomain.value.id!, opDomain.value.use_scope)
+    const findItem = domainList.value.find((item) => item.id === opDomain.value.id)
+    if (!findItem) return
+    findItem.use_scope = opDomain.value.use_scope
+    accessPermissionDialogVisible.value = false
+  } catch (error) {}
+}
 
 const onNew = async () => {
   const needUpgrade = await checkRightsTypeNeedUpgrade(ESpaceRightsType.bot)
