@@ -61,8 +61,8 @@
         </div>
         <SwitchWithStateMsg
           :value="currentDomain.qa_modifiable"
-          open-msg="开启"
-          close-msg="关闭"
+          openMsg="开启"
+          closeMsg="关闭"
           @change="onCorrectAnswerChange"
         />
       </div>
@@ -140,7 +140,7 @@
           class="flex items-center py-2 px-3 rounded border border-solid border-[#7C5CFC] text-[#7C5CFC] cursor-pointer"
           @click="clickSelectTimbre"
         >
-          {{ t('选择声音') }}
+          {{ t('选择音色') }}
         </div>
       </div>
     </div>
@@ -151,9 +151,9 @@
       </div>
       <div class="flex items-center justify-between gap-4 w-full">
         <ImgUpload
-          :value="currentDomain.brand_logo"
-          v-bind="uploadConfig"
-          @onChange="onImgChange"
+          :fixed="true"
+          v-model:img-url="currentDomain.brand_logo"
+          :is-initial-img="true"
         />
         <HansInputLimit
           v-model:value="currentDomain.brand_name"
@@ -191,7 +191,7 @@
 
   <Modal v-model:visible="exampleState.visible" title="查看示例" :footer="false">
     <div class="max-h-[65vh] overflow-y-auto">
-      <img :src="exampleState.img" class="w-full object-contain mx-auto" alt="" />
+      <img :src="exampleState.img" class="w-full" alt="" />
     </div>
   </Modal>
   <div>
@@ -204,7 +204,7 @@
         :className="
           index === indexDialogTimbre
             ? '!border-[#7C5CFC] justify-between cursor-pointer !text-[#7C5CFC]'
-            : 'justify-between cursor-pointer !text-[#9DA3AF]'
+            : 'justify-between cursor-pointer !text-black'
         "
         :iconName="playAudio === item.value ? 'audio-pause' : undefined"
         :key="item.value"
@@ -221,16 +221,15 @@
 import {
   checkDomainCorrectTicketIsExpired,
   generateDomainCorrectTicket,
-  getTestTimbreUrl as getTestTimbreUrlApi,
-  getTimbreList as getTimbreListApi
+  getTimbreList as getTimbreListApi,
+  getTestTimbreUrl as getTestTimbreUrlApi
 } from '@/api/domain'
-import TimbreItem from '@/components/BotSetting/TimbreItem.vue'
-import type { ImgUplaodProps } from '@/components/ImgUpload/data'
-import ImgUpload from '@/components/ImgUpload/index.vue'
+import ImgUpload from '@/components/ImgUpload/ImgUpload.vue'
 import HansInputLimit from '@/components/Input/HansInputLimit.vue'
 import Modal from '@/components/Modal/index.vue'
 import SpaceRightsMask from '@/components/Space/SpaceRightsMask.vue'
 import SwitchWithStateMsg from '@/components/SwitchWithStateMsg/index.vue'
+import TimbreItem from '@/components/BotSetting/TimbreItem.vue'
 import SLTitle from '@/components/Title/SLTitle.vue'
 import useImagePath from '@/composables/useImagePath'
 import { currentEnvConfig } from '@/config'
@@ -242,15 +241,14 @@ import {
 import { EReleaseSettingExampleType } from '@/enum/release'
 import { ESpaceRightsType } from '@/enum/space'
 import type { IDomainInfo } from '@/interface/domain'
-import type { ITimbreOptions } from '@/interface/tts'
 import { useSpaceStore } from '@/stores/space'
 import { copyPaste } from '@/utils/help'
-import * as url from '@/utils/url'
 import { ElMessageBox, ElNotification } from 'element-plus'
 import { storeToRefs } from 'pinia'
 import { computed, inject, onMounted, reactive, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import ChatShortcuts from './ChatShortcuts.vue'
+import type { ITimbreOptions } from '@/interface/tts'
 
 const currentDomain = inject<Partial<IDomainInfo>>(DomainEditSymbol)
 const currentDomainHansLimit = inject<Record<string, number>>(DomainHansLimitSymbol)
@@ -415,34 +413,11 @@ onMounted(() => {
   getTimbreList()
 })
 
-// ----- 图片上传 -----
-const apiUpload = url.join(currentEnvConfig.uploadBaseURL, '/chato/api/file/upload/file')
-const uploadConfig = {
-  uploadType: 1, // 1: 直接上传; 2: 打开图库上传
-  cropProps: {
-    aspectRatio: [1, 1], // 默认裁剪比例
-    autoAspectRatio: false // 是否允许修改裁剪比例
-  },
-  showUploadList: {
-    // 可操作按钮
-    showCropIcon: true,
-    showRemoveIcon: true
-  },
-  maxLength: 1, // 限制上传数量
-  apiUploadPath: apiUpload, // 上传路径
-  itemWidth: 48,
-  itemHeight: 48,
-  uploadFillet: true, // 是否圆角
-  uploadBtnText: '' // 上传文案
-} as ImgUplaodProps
-const onImgChange = (v) => {
-  currentDomain.brand_logo = v?.url || ''
-}
 // ------------------
 </script>
 
 <style lang="scss" scoped>
 .interface-desc {
-  @apply text-sm leading-5 text-[#596780] flex items-center justify-between w-full gap-3;
+  @apply text-sm leading-5 text-[#596780] flex items-center justify-between w-full;
 }
 </style>

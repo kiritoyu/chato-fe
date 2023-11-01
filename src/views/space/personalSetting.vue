@@ -1,6 +1,6 @@
 <template>
   <Topbar :title="$t(`个人设置`)" />
-  <div class="page-center-container page-content-cotainer">
+  <div class="page-center-container page-content-container">
     <SLTitle class="!text-base">{{ t('你的账户') }}</SLTitle>
     <el-form
       ref="settingFormRef"
@@ -21,9 +21,10 @@
             <el-avatar :size="48" class="bg-[#7C5CFC]">{{ userInfo.nickname[0] }}</el-avatar>
           </div>
           <div
+            v-else
             :class="[!settingForm.avatar && !isRemove ? 'hidden-img-upload' : 'show-img-upload']"
           >
-            <ImgUpload v-bind="uploadConfig" :value="settingForm.avatar" @onChange="handleChange" />
+            <ImgUpload :fixed="true" v-model:img-url="settingForm.avatar" />
           </div>
         </div>
       </el-form-item>
@@ -62,6 +63,7 @@ import { logoutAccount } from '@/api/auth'
 import { updateOrgUserInfo } from '@/api/space'
 import HansInputLimit from '@/components/Input/HansInputLimit.vue'
 import SLTitle from '@/components/Title/SLTitle.vue'
+import ImgUpload from '@/components/ImgUpload/ImgUpload.vue'
 import Topbar from '@/components/Topbar/index.vue'
 import { useAuthStore } from '@/stores/auth'
 import { useBase } from '@/stores/base'
@@ -103,31 +105,8 @@ const settingRule = reactive<FormRules>({
 })
 const isRemove = ref<boolean>(false)
 
-const uploadConfig = {
-  uploadType: 1, // 1: 直接上传; 2: 打开图库上传
-  cropProps: {
-    aspectRatio: [1, 1], // 默认裁剪比例
-    autoAspectRatio: true, // 是否允许修改裁剪比例
-    notSelectCrop: false
-  },
-  showUploadList: {
-    // 可操作按钮
-    showCropIcon: true,
-    showPreviewIcon: true,
-    showRemoveIcon: true,
-    showDownloadIcon: true
-  },
-  maxLength: 1, // 限制上传数量
-  itemWidth: 48,
-  itemHeight: 48,
-  uploadFillet: true
-}
 const handleReplace = () => {
   isRemove.value = true
-}
-
-const handleChange = (value: any) => {
-  settingForm.avatar = value.url
 }
 
 const handleSaveSetting = async (formEl: FormInstance | undefined) => {
@@ -203,6 +182,7 @@ watch(
   width: 48px;
   height: 48px;
   font-size: 14px;
+
   &:hover {
     &::after {
       content: '替换';
@@ -217,10 +197,12 @@ watch(
   position: relative;
   width: 48px;
   height: 48px;
+
   .hidden-img-upload {
     opacity: 0;
     height: 100%;
   }
+
   .show-img-upload {
     opacity: 1;
     height: 100%;
@@ -229,6 +211,7 @@ watch(
 
 .setting-form {
   margin-top: 24px;
+
   :deep(.el-form-item__label) {
     margin-bottom: 0px !important;
     align-items: center;
