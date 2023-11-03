@@ -416,7 +416,7 @@ async function submitInputText() {
           break
         default:
           requestFunc = 'uploadPublicAsync'
-          requestParams = [spliderPublicForm.publicName]
+          requestParams = [spliderPublicForm.publicName || spliderPublicForm.publicSearchName]
           requestParamsPath = {
             count:
               spliderPublicForm.content === -1
@@ -437,13 +437,16 @@ async function submitInputText() {
           }
           spliderUrlForm.urlData = ''
           spliderPublicForm.publicName = ''
-          spliderPublicForm.content = 0
+          spliderPublicForm.content = 10
           spliderPublicForm.publicSearchName = ''
           emit('setSuccess')
         })
         .catch((err) => {})
         .finally(() => {
           loading.close()
+          spliderPublicForm.publicName = ''
+          spliderPublicForm.content = 10
+          spliderPublicForm.publicSearchName = ''
           emit('closeDialogVisble')
         })
     } else {
