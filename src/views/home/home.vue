@@ -41,20 +41,25 @@
             <span>{{ $t('快速创建机器人') }}</span>
           </template>
           <template #viewB>
-            <span>{{ $t('免费创建数字分身') }}</span>
+            <span>{{ $t('免费创建机器人') }}</span>
           </template>
         </ABTestRender>
       </el-button>
-      <el-button
-        id="Chato_top_video_click"
-        class="w-[228px] !h-[60px] !text-lg font-medium tracking-[0.08em] !rounded-lg mt-7 !ml-0 hover:!scale-105 lg:!text-sm lg:w-[153px] lg:!h-[45px] !border-[#7C5CFC] lg:mt-5 !bg-[#F2F2F5] !text-[#7C5CFC] shadow-lg"
-        @click="onEnter('Chato_top_video_click')"
-      >
-        <template #icon>
-          <el-icon :size="18" class="mr-1"><VideoPlay /></el-icon>
+      <ABTestRender :case-num="3">
+        <template #viewA>
+          <el-button
+            id="Chato_top_video_click"
+            class="w-[228px] !h-[60px] !text-lg font-medium tracking-[0.08em] !rounded-lg mt-7 !ml-0 hover:!scale-105 lg:!text-sm lg:w-[153px] lg:!h-[45px] !border-[#7C5CFC] lg:mt-5 !bg-[#F2F2F5] !text-[#7C5CFC] shadow-lg"
+            @click="onEnter('Chato_top_video_click')"
+          >
+            <template #icon>
+              <el-icon :size="18" class="mr-1"><VideoPlay /></el-icon>
+            </template>
+            {{ $t('观看视频') }}
+          </el-button>
         </template>
-        {{ $t('观看视频') }}
-      </el-button>
+        <template #viewB> </template>
+      </ABTestRender>
     </div>
     <IndustryCase />
   </div>
