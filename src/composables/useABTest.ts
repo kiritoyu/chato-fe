@@ -24,7 +24,9 @@ export default function useABTest(caseNum: number) {
   )
   const currentABTestView = computed<string>(() => ABTestCaseViewMapper[currentABTestConfig.value])
 
-  const executeABTestFn = (fnConfig: Record<(typeof ABTestCaseViewMapper)[number], Function>) => {
+  const executeABTestFn = (
+    fnConfig: Partial<Record<(typeof ABTestCaseViewMapper)[number], Function>>
+  ) => {
     return fnConfig[currentABTestView.value]?.()
   }
 

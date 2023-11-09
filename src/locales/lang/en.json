@@ -896,6 +896,8 @@
   "知识库中可添加问答或文档，在机器人回答时，可运用库中的知识进行回复。此外还能": "Questions and answers or documents can be added to the knowledge base, and when the robot answers, it can use the knowledge in the database to reply. In addition, it can",
   "问答集": "Q&A",
   "文档集": "Documents",
+  "该功能为付费权益，试用已结束": "This feature is a paid benefit and the trial has ended",
+  "限时免费体验付费权益，还可使用 {limit} 天": "Try paid benefits for free for a limited time, and you can use it for {limit} days",
   "开通该功能请联系": "To activate this function, please contact ",
   "产品顾问": "Product Consultant",
   "我的空间": "My Space",
@@ -1038,6 +1040,7 @@
   "收集表单明细": "Form Details",
   "例如：制定专业的苹果手机营销计划和策略": "For example: Develop professional Apple mobile phone marketing strategies",
   "关注公众号": "Follow WeChat",
+  "渠道": "Channel",
   "渠道合作": "Cooperate",
   "提交申请": "Submit",
   "姓名（必填）": "Name (Required)",
@@ -1297,6 +1300,7 @@
   "收不到短信验证码": "No SMS verification code",
   "微信扫一扫": "WeChat scan",
   "新用户扫码后，关注公众号自动创建账号": "After the new user scans the code, follow the official account to automatically create an account",
+  "免费使用一年 赠送100电力值": "Free use for one year and free 100 electricity value",
   "使用微信扫码登录": "Login using WeChat QR code scanning",
   "请确保网站内容可复制，请避免非法抓取他人网站的侵权行为": "Please ensure that the content of the website can be copied, and please avoid the infringement of illegally crawling other people's websites.",
   "AI智能助手": "AI intelligent assistant",
@@ -1358,5 +1362,10 @@
   "微信小程序域名校验文件获取指引": "(WeChat Mini Program Domain Verification File Acquisition Guide )",
   "域名地址": "Domain Address",
   "校验文件": "Verification File",
-  "后缀为：*.txt的文件，上传成功后约一分钟生效，请耐心等待": "The file suffix is *.txt, and the upload is successful after one minute. Please wait patiently"
+  "后缀为：*.txt的文件，上传成功后约一分钟生效，请耐心等待": "The file suffix is *.txt, and the upload is successful after one minute. Please wait patiently",
+  "暂无账号？": "No account?",
+  "a.使用企业微信扫码后添加机器人为好友，将机器人拉入企业微信创建的群中，使用激活码激活": "a.Use the QR code to scan the enterprise WeChat, add the robot as a friend, and add the robot to the group created by the",
+  "b.若机器人已是好友、已在群中，任意用户在群内发送激活码即可激活": "b.If the robot is a friend, the robot is already in the group, any user in the group can send the activation code to activate",
+  "c.激活机器人后，在群内{'@'}机器人提问": "c.After activating the robot, ask questions in the group {'@'} the robot",
+  "用量限制只对有网页、JS有效，其他端暂不可用": "The quota limit only takes effect for the web, JS, and other endpoints are temporarily unavailable"
 }

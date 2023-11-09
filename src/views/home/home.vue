@@ -3,7 +3,7 @@
     <h2
       class="font-medium text-[50px] leading-[72px] mt-[125px] text-[#303133] text-center tracking-[4px] lg:text-3xl lg:leading-[40px] lg:mt-32"
     >
-      {{ $t('基于知识库轻松定制') }}
+      {{ $t(titleABTest) }}
     </h2>
     <div class="flex justify-center items-center mt-1 mb-[35px] h-24 lg:mb-4 lg:mt-1 lg:h-12">
       <span
@@ -27,88 +27,23 @@
         {{ $t('释放难以想象的产出与价值。') }}
       </p>
     </section>
-    <ABTestRender :case-num="3">
-      <template #viewA>
-        <div class="text-center flex gap-8 items-center justify-center lg:gap-4">
-          <el-button
-            class="w-[228px] !h-[60px] !text-lg font-medium tracking-[0.08em] !rounded-lg mt-7 !ml-0 hover:!scale-105 lg:!text-sm lg:w-[153px] lg:!h-[45px] lg:mt-5 btn-grad shadow-lg"
-            type="primary"
-            id="Chato_top_create_click"
-            data-sensors-abtest-id="2"
-            :data-sensors-abtest-value="currentABTestConfig"
-            @click="onEnter()"
-          >
-            <ABTestRender :case-num="2">
-              <template #viewA>
-                <span>{{ $t('快速创建机器人') }}</span>
-              </template>
-              <template #viewB>
-                <span>{{ $t('免费创建机器人') }}</span>
-              </template>
-            </ABTestRender>
-          </el-button>
-          <el-button
-            id="Chato_top_video_click"
-            class="w-[228px] !h-[60px] !text-lg font-medium tracking-[0.08em] !rounded-lg mt-7 !ml-0 hover:!scale-105 lg:!text-sm lg:w-[153px] lg:!h-[45px] !border-[#7C5CFC] lg:mt-5 !bg-[#F2F2F5] !text-[#7C5CFC] shadow-lg"
-            @click="onEnter('Chato_top_video_click')"
-          >
-            <template #icon>
-              <el-icon :size="18" class="mr-1"><VideoPlay /></el-icon>
-            </template>
-            {{ $t('观看视频') }}
-          </el-button>
-        </div>
-      </template>
-      <template #viewB>
-        <div class="text-center flex gap-8 items-center justify-center lg:gap-4">
-          <el-button
-            class="w-[348px] !h-[80px] !text-2xl font-medium tracking-[0.08em] !rounded-lg mt-7 !ml-0 hover:!scale-105 lg:!text-xl lg:w-[273px] lg:!h-[60px] lg:mt-5 btn-grad shadow-lg"
-            type="primary"
-            id="Chato_top_create_click"
-            data-sensors-abtest-id="2"
-            :data-sensors-abtest-value="currentABTestConfig"
-            @click="onEnter()"
-          >
-            <ABTestRender :case-num="2">
-              <template #viewA>
-                <span>{{ $t('快速创建机器人') }}</span>
-              </template>
-              <template #viewB>
-                <span>{{ $t('免费创建机器人') }}</span>
-              </template>
-            </ABTestRender>
-          </el-button>
-        </div>
-      </template>
-      <template #viewC>
-        <div class="text-center flex gap-8 items-center justify-center lg:gap-4">
-          <el-button
-            class="w-[228px] !h-[60px] !text-lg font-medium tracking-[0.08em] !rounded-lg mt-7 !ml-0 hover:!scale-105 lg:!text-sm lg:w-[153px] lg:!h-[45px] lg:mt-5 btn-grad shadow-lg"
-            type="primary"
-            id="Chato_top_create_click"
-            data-sensors-abtest-id="2"
-            :data-sensors-abtest-value="currentABTestConfig"
-            @click="onEnter()"
-          >
-            <ABTestRender :case-num="2">
-              <template #viewA>
-                <span>{{ $t('快速创建机器人') }}</span>
-              </template>
-              <template #viewB>
-                <span>{{ $t('免费创建机器人') }}</span>
-              </template>
-            </ABTestRender>
-          </el-button>
-          <el-button
-            id="Chato_top_resource_click"
-            class="w-[228px] !h-[60px] !text-lg font-medium tracking-[0.08em] !rounded-lg mt-7 !ml-0 hover:!scale-105 lg:!text-sm lg:w-[153px] lg:!h-[45px] !border-[#7C5CFC] lg:mt-5 !bg-[#F2F2F5] !text-[#7C5CFC] shadow-lg"
-            @click="onEnter('Chato_top_resource_click')"
-          >
-            {{ $t('进入资源广场') }}
-          </el-button>
-        </div>
-      </template>
-    </ABTestRender>
+    <div class="text-center flex gap-8 items-center justify-center lg:gap-4">
+      <el-button
+        class="w-[228px] !h-[60px] !text-lg font-medium tracking-[0.08em] !rounded-lg mt-7 !ml-0 hover:!scale-105 lg:!text-sm lg:w-[153px] lg:!h-[45px] lg:mt-5 btn-grad shadow-lg"
+        type="primary"
+        id="Chato_top_create_click"
+        @click="onEnter()"
+      >
+        <span>{{ $t('免费创建机器人') }}</span>
+      </el-button>
+      <el-button
+        id="Chato_top_resource_click"
+        class="w-[228px] !h-[60px] !text-lg font-medium tracking-[0.08em] !rounded-lg mt-7 !ml-0 hover:!scale-105 lg:!text-sm lg:w-[153px] lg:!h-[45px] !border-[#7C5CFC] lg:mt-5 !bg-[#F2F2F5] !text-[#7C5CFC] shadow-lg"
+        @click="onEnter('Chato_top_resource_click')"
+      >
+        {{ $t('进入资源广场') }}
+      </el-button>
+    </div>
     <IndustryCase />
   </div>
   <div class="line-grad-bg pt-20 pb-24 mb-32 home-center-padding lg:!px-2 lg:pt-9 lg:pb-9">
@@ -598,11 +533,9 @@
 </template>
 
 <script setup lang="ts">
-import ABTestRender from '@/components/ABTestRender/index.vue'
 import useABTest from '@/composables/useABTest'
 import useImagePath from '@/composables/useImagePath'
 import { ELangKey } from '@/enum/locales'
-import { useBase } from '@/stores/base'
 import { useLocales } from '@/stores/locales'
 import { ChatDotRound, VideoPlay } from '@element-plus/icons-vue'
 import { storeToRefs } from 'pinia'
@@ -613,7 +546,6 @@ import IndustryCase from './components/IndustryCase.vue'
 const { ImagePath: homeStepImg } = useImagePath('step', 'home')
 const { locale } = storeToRefs(useLocales())
 const { t } = useI18n()
-const { currentABTestConfig } = useABTest(2)
 
 const dynamicClasses = computed(() => {
   if (locale.value === ELangKey.en) {
@@ -649,6 +581,8 @@ const list = [
   t('设计助理机器人'),
   t('育儿专家机器人')
 ]
+
+const list2 = [t('个人问答机器人'), t('个人问答机器人'), t('企业专属机器人'), t('企业专属机器人')]
 
 const serviceCardList = [
   {
@@ -692,7 +626,7 @@ function clearTimer() {
 }
 
 function clock() {
-  if (title.value.length == list[index.value].length || direction.value) {
+  if (title.value.length == listABTest[index.value].length || direction.value) {
     if (!direction.value) {
       direction.value = true
       clearTimer()
@@ -707,13 +641,13 @@ function clock() {
       delay.value = false
     } else {
       delay.value = true
-      title.value = list[index.value].substring(0, title.value.length + 1)
+      title.value = listABTest[index.value].substring(0, title.value.length + 1)
     }
   }
 
   if (title.value.length == 0) {
     direction.value = false
-    index.value = (index.value + 1) % list.length
+    index.value = (index.value + 1) % listABTest.length
   }
 }
 
@@ -729,9 +663,25 @@ onBeforeUnmount(() => {
   clearTimer()
 })
 
-const baseStoreI = useBase()
-const { abTestConfig } = storeToRefs(baseStoreI)
-const home_quick_create = abTestConfig.value ? abTestConfig.value[2] : 0
+const { executeABTestFn: executeABTestFn6 } = useABTest(6)
+
+const titleABTest: string = executeABTestFn6({
+  viewA: () => {
+    return '基于知识库轻松定制'
+  },
+  viewB: () => {
+    return '基于AI轻松定制'
+  }
+})
+
+const listABTest: string[] = executeABTestFn6({
+  viewA: () => {
+    return list
+  },
+  viewB: () => {
+    return list2
+  }
+})
 </script>
 
 <style lang="scss" scoped>
