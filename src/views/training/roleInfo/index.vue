@@ -150,7 +150,7 @@ const onSave = async () => {
       await ElMessageBox({
         title: t('温馨提示'),
         message:
-          t('是否开放你的机器人被互联网用户访问?') +
+          t('是否开放机器人被互联网用户访问?') +
           '<br>' +
           t('可前往高级设置->公开访问权限开关手动修改'),
         confirmButtonText: t('开启权限'),
