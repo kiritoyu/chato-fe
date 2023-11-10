@@ -14,7 +14,6 @@
 </style>
 <script setup lang="ts">
 const blockDivs = document.querySelectorAll('.block')
-console.log(blockDivs)
 blockDivs.forEach((div) => (div.style.display = 'none'))
 
 const url = window.location.pathname

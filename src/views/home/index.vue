@@ -143,17 +143,6 @@
             >
           </p>
         </div>
-        <div class="flex text-xs mt-4 mb-3">
-          <p class="!text-[#9DA3AF] text-xs flex items-center justify-center gap-1 lg:text-center">
-            <el-link
-              type="info"
-              href="https://beian.miit.gov.cn/"
-              class="!text-l !font-normal !text-[#9DA3AF] hover:opacity-80"
-              :underline="false"
-              >{{ $t('示例问答') }}</el-link
-            >
-          </p>
-        </div>
 
         <div
           v-for="item in footerQrCode"
