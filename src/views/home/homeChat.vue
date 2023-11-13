@@ -74,6 +74,7 @@ watch(
     console.log(newPath)
     // 当路由匹配特定模式时，设置 square 为 true，否则为 false
     square.value = newPath === `/bot/square`
-  }
+  },
+  { immediate: true }
 )
 </script>
