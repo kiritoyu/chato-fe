@@ -9,7 +9,6 @@ import { nextTick } from 'vue'
 import { RouterView, createRouter, createWebHistory, type RouteRecordRaw } from 'vue-router'
 
 export const RoutesMap = {
-  sample_chat: 'sample_chat', /////////
   home: {
     homeName: 'home',
     index: 'homeIndex',
@@ -80,11 +79,6 @@ const coreRoutes = [
         path: 'case',
         component: () => import('@/views/home/case.vue')
       },
-      ...Array.from({ length: 100 }, (_, i) => i + 1).map((i) => ({
-        name: 'sample_chat' + i,
-        path: 'sample_chat' + i,
-        component: () => import('@/views/home/sample_chat.vue')
-      })),
       {
         name: RoutesMap.home.homeResource,
         path: 'square',
