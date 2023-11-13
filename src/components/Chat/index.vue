@@ -1166,6 +1166,7 @@ onBeforeUnmount(() => {
 watch(
   botSlug,
   (v) => {
+    if (botSlug.value === 'square') return
     recommendQuestions.value = []
     if (v) {
       init()

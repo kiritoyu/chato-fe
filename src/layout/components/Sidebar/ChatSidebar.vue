@@ -73,6 +73,7 @@ const onLinkToChat = (slug: string) => {
 
 async function jumpToSquare() {
   emit('to_square', 'show')
+  router.replace(`${props.prefix}/bot/square`)
 }
 
 const handeGoCreate = () => {
