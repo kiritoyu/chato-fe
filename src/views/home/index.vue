@@ -325,7 +325,7 @@ const menuRouteList = [
   { title: t('联系我们'), key: 'menu_schedule' },
   { title: t('渠道合作'), key: 'menu_join' },
   { title: t('用户社区'), key: 'menu_community' },
-  { title: t('资源广场'), key: RoutesMap.home.homeResource },
+  // { title: t('资源广场'), key: RoutesMap.home.homeResource },
   { title: t('我的对话'), key: RoutesMap.home.homeChat }
 ]
 

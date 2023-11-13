@@ -1,7 +1,7 @@
 <template>
   <div class="overflow-hidden w-full h-[calc(100%-74px)] mt-[74px] flex bg-white">
     <ChatSidebar v-show="!isMobile" prefix="" style="border-right: 1px solid rgb(228, 231, 237)" />
-    <Square class="mt-12" v-if="square" prefix="" :requiredTopbar="false" :existMenuMore="false" />
+    <Square class="mt-12" v-if="square" prefix="" :requiredTopbar="true" :existMenuMore="false" />
     <div v-else class="relative w-full" v-loading="loading">
       <span
         v-show="isMobile"

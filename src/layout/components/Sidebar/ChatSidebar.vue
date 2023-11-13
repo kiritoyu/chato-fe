@@ -15,31 +15,21 @@
         <span class="inline-block truncate">{{ item.name }}</span>
       </li>
     </ul>
-    <el-button
-      round
-      type="primary"
-      class="relative w-32 mt-3 mb-2 self-center"
-      size="large"
+    <div
       @click="handeGoCreate"
+      class="h-[48px] items-center justify-center mx-3 mt-2 cursor-pointer hover:!bg-[#F2F3F5] text-[#000] !rounded !border-0 flex text-sm"
     >
-      <svg-icon name="block-plus" svg-class="w-5 h-5" />
+      <svg-icon name="block-plus" svg-class="w-5 h-5 mr-2" style="font-size: 22px" />
       {{ $t('创建机器人') }}
-    </el-button>
-    <el-button
-      type="white"
-      class="h-12 pl-4 pr-4 pt-2 pb-2 items-center gap-[6px] rounded-lg cursor-pointer mb-2 text-sm leading-[22px] hover:bg-[#f2f3f5] transition-colors"
-      size="large"
+    </div>
+
+    <div
       @click="jumpToSquare()"
+      class="h-[48px] items-center justify-center mx-3 mt-2 cursor-pointer hover:!bg-[#F2F3F5] text-[#000] !rounded !border-0 flex text-sm"
     >
-      <svg-icon name="cube-filled" svg-class="w-6 h-6" />
+      <svg-icon name="square_1" svg-class="w-5 h-5 mr-2" style="font-size: 22px" />
       {{ $t('资源广场') }}
-    </el-button>
-    <!--     
-    <button
-      class="mt-3 w-32 px-4 py-2 text-sm leading-[22px] rounded-lg bg-[#7c5cfc] hover:opacity-75 text-white transition-colors self-center border-none mb-2"
-      @click="jumpToSquare()">
-      {{ $t('资源广场') }}
-    </button> -->
+    </div>
   </div>
 </template>
 
