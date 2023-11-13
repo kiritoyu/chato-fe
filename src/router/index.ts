@@ -199,7 +199,7 @@ const chatRoutes = [
       {
         name: RoutesMap.home.homeResource,
         path: 'bot/square',
-        component: () => import('@/views/home/homeResource.vue')
+        component: () => import('@/views/resource/square.vue')
       },
       {
         name: RoutesMap.chat.c,
