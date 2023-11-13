@@ -26,8 +26,8 @@
       {{ $t('创建机器人') }}
     </el-button>
     <el-button
-      type="primary"
-      class="relative w-32 mt-3 mb-2 self-center"
+      type="white"
+      class="h-12 pl-4 pr-4 pt-2 pb-2 items-center gap-[6px] rounded-lg cursor-pointer mb-2 text-sm leading-[22px] hover:bg-[#f2f3f5] transition-colors"
       size="large"
       @click="jumpToSquare()"
     >
@@ -49,6 +49,7 @@ import { useChatStore } from '@/stores/chat'
 import { storeToRefs } from 'pinia'
 import { useRoute, useRouter } from 'vue-router'
 import { RoutesMap } from '@/router'
+import { ref, watch } from 'vue'
 
 const props = withDefaults(
   defineProps<{
@@ -74,6 +75,7 @@ const onLinkToChat = (slug: string) => {
 async function jumpToSquare() {
   emit('to_square', 'show')
   router.replace(`${props.prefix}/bot/square`)
+  console.log(route.path)
 }
 
 const handeGoCreate = () => {

@@ -1,20 +1,7 @@
 <template>
   <div class="overflow-hidden w-full h-[calc(100%-74px)] mt-[74px] flex bg-white">
-    <ChatSidebar
-      v-show="!isMobile"
-      prefix=""
-      style="border-right: 1px solid rgb(228, 231, 237)"
-      @to_square="handleToSquare"
-      @hide_square="handleHiddenSquare"
-    />
-    <Square
-      class="mt-12"
-      v-if="square"
-      prefix=""
-      :requiredTopbar="false"
-      :existMenuMore="false"
-      @hidden_square="handleHiddenSquare"
-    />
+    <ChatSidebar v-show="!isMobile" prefix="" style="border-right: 1px solid rgb(228, 231, 237)" />
+    <Square class="mt-12" v-if="square" prefix="" :requiredTopbar="false" :existMenuMore="false" />
     <div v-else class="relative w-full" v-loading="loading">
       <span
         v-show="isMobile"
@@ -50,10 +37,11 @@ import { useBasicLayout } from '@/composables/useBasicLayout'
 import useGlobalProperties from '@/composables/useGlobalProperties'
 import ChatSidebar from '@/layout/components/Sidebar/ChatSidebar.vue'
 import dayjs from 'dayjs'
-import { ref, defineEmits } from 'vue'
+import { ref, defineEmits, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import homeChatItem from './components/homeChatItem.vue'
 import Square from '../resource/square.vue'
+import { useRoute, useRouter } from 'vue-router'
 
 const { isMobile } = useBasicLayout()
 const loading = ref(false)
@@ -61,7 +49,8 @@ const drawerVisible = ref<boolean>(false)
 const link = window.location.href
 const { $sensors, $copyText } = useGlobalProperties()
 const { t } = useI18n()
-const square = ref<boolean>(true)
+const square = ref<boolean>(false)
+const route = useRoute()
 
 const copyText = (str: string) => {
   scanCodeSuccessRBI()
@@ -78,11 +67,13 @@ const scanCodeSuccessRBI = () => {
   })
 }
 
-const handleHiddenSquare = (message) => {
-  square.value = false
-}
-
-const handleToSquare = (message) => {
-  square.value = true
-}
+// 观察路由变化
+watch(
+  () => route.path, // 监听路由路径的变化
+  (newPath) => {
+    console.log(newPath)
+    // 当路由匹配特定模式时，设置 square 为 true，否则为 false
+    square.value = newPath === `/bot/square`
+  }
+)
 </script>
