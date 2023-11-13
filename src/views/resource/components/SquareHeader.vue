@@ -36,8 +36,8 @@ const chatStoreI = useChatStore()
 const { chatList } = storeToRefs(chatStoreI)
 
 const handleGoChat = () => {
-  const name =
-    route.name === RoutesMap.home.homeResource ? RoutesMap.home.homeChat : RoutesMap.chat.c
+  const name = route.name === RoutesMap.home.homeChat ? RoutesMap.home.homeChat : RoutesMap.chat.c
+
   router.push({
     name,
     params: {

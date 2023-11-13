@@ -324,8 +324,8 @@ const menuRouteList = [
   { title: t('联系我们'), key: 'menu_schedule' },
   { title: t('渠道合作'), key: 'menu_join' },
   { title: t('用户社区'), key: 'menu_community' },
-  { title: t('资源广场'), key: RoutesMap.home.homeResource },
-  { title: t('我的对话'), key: RoutesMap.home.homeChat }
+  // { title: t('资源广场'), key: RoutesMap.home.homeResource },
+  { title: t('对话Chato'), key: RoutesMap.home.homeChat }
 ]
 
 const footerQrCode = [
@@ -361,7 +361,17 @@ const onLinkRoute = (key: string) => {
     case 'menu_community':
       window.open(userCommunityLink)
       break
+    case 'homeChat':
+      router.push({
+        name: key,
+        params: {
+          ...route.params,
+          botSlug: 'square'
+        }
+      })
+      break
     default:
+      console.log(key)
       router.push({
         name: key,
         params: {

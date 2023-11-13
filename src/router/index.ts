@@ -29,7 +29,8 @@ export const RoutesMap = {
     chatName: 'chat',
     release: 'chatRelease',
     c: 'chatC',
-    homeC: 'chatHomeC'
+    homeC: 'chatHomeC',
+    resource: 'resource'
   },
   resource: 'resource',
   tranning: {
@@ -195,6 +196,11 @@ const chatRoutes = [
       requiresAuth: true
     },
     children: [
+      {
+        name: RoutesMap.home.homeResource,
+        path: 'bot/square',
+        component: () => import('@/views/resource/square.vue')
+      },
       {
         name: RoutesMap.chat.c,
         path: 'bot/:botSlug',
@@ -383,6 +389,7 @@ const router = createRouter({
 })
 
 router.beforeEach((to) => {
+  console.log(to)
   const { drawerVisible } = useSidebar()
   drawerVisible.value = false
 
