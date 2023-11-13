@@ -1,4 +1,3 @@
-import useCheckDomain from '@/composables/useCheckDomain'
 import usePageTitle from '@/composables/usePageTitle'
 import useRoleCheck from '@/composables/useRoleCheck'
 import useSidebar from '@/composables/useSidebar'
@@ -277,7 +276,7 @@ const managerRoutes = [
       },
       {
         name: RoutesMap.manager.create,
-        path: 'create/:botId?/:opt?',
+        path: 'create/:botId?/:opt?/:botSlug?',
         component: () => import('@/views/manage/BotCreate.vue')
       },
       {
@@ -390,7 +389,7 @@ router.beforeEach((to) => {
   locationComToCn()
   useRoleCheck(to)
   usePageTitle(to.meta?.title)
-  useCheckDomain(to)
+  // useCheckDomain(to)
   const authStoreI = useAuthStore()
   if (to.meta.requiresAuth && !authStoreI.authToken) {
     let query
