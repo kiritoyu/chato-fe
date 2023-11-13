@@ -1371,5 +1371,17 @@
   "公开访问权限":"Public Access Permission",
   "可前往高级设置->公开访问权限开关手动修改":"Go to Advanced Settings -> Public Access Permission manually modify the status",
   "开启权限":"Enable Permission",
-  "是否开放机器人被互联网用户访问 ( 如百度索引、文心一言等平台）" :"Whether to allow the robot to be accessed by Internet users (such as Wenxin and other platforms)" 
+  "是否开放机器人被互联网用户访问 ( 如百度索引、文心一言等平台）" :"Whether to allow the robot to be accessed by Internet users (such as Wenxin and other platforms)" ,
+  "选择头像": "Choose Avatar",
+  "预览头像": "Preview avatar",
+  "自定义头像颜色": "Custom avatar color",
+  "使用示例填充": "Fill in with examples",
+  "填充示例公众号": "Fill in the sample official account",
+  "填充示例文本": "Populate sample text",
+  "填充示例网址": "Populate sample URL",
+  "上传示例文档": "Upload sample document",
+  "气泡颜色": "Bubble color",
+  "外层": "Outer",
+  "内层": "Inner",
+  "创建同款": "Create the same style"
 }

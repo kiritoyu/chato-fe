@@ -5,10 +5,11 @@
       class="flex items-center justify-center h-14 bg-white mb-0 text-sm font-medium gap-2 shrink-0"
       style="border-bottom: 1px solid #eee"
     >
-      <img
-        :src="detail.avatar || DefaultAvatar"
+      <Avatar
+        :avatar="detail.avatar || DefaultAvatar"
+        :size="28"
+        :name="detail.name.slice(0, 2)"
         class="w-7 h-7 rounded-full shrink-0 overflow-hidden"
-        alt=""
       />
       <span>{{ detail.name || '...' }}</span>
       <span
@@ -69,6 +70,7 @@
           <div
             v-for="(item, index) in recommendQuestions"
             data-sensors-click
+            id="Chato_chat_recommend_question_click"
             :data-sensors-recommend-base-question="recommendBaseQuestion"
             :data-sensors-recommend-click-question="item.question"
             :key="`rq_${index}`"
@@ -577,7 +579,15 @@ const onPlayAudio = async (text: string, playerId: string) => {
 const beforeSubmit = async () => {
   // 未登录状态资源广场对话数限制
   if (props.authLogin && !isInternal && history.value.length >= 6) {
-    router.replace({ name: RoutesMap.auth.login })
+    ElMessage.warning(t('对话次数已用完，请登录后继续'))
+    $sensors?.track('square_chat_login', {
+      name: t('资源广场跳转登录'),
+      type: 'square_chat_login',
+      data: {
+        time: dayjs().format('YYYY-MM-DD HH:mm:ss')
+      }
+    })
+    router.replace({ name: RoutesMap.auth.login, query: { redirect: `/bot/${botSlug.value}` } })
     return false
   }
   // C 端对话额度限制，B 端对话额度限制走流式

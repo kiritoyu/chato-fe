@@ -67,7 +67,8 @@ const allMenuList = [
 ]
 
 const secondarySidebar = {
-  [RoutesMap.chat.c]: ChatSidebar
+  [RoutesMap.chat.c]: ChatSidebar,
+  [RoutesMap.home.homeResource]: ChatSidebar
 }
 
 const route = useRoute()
@@ -89,7 +90,11 @@ const sideMenuList = computed(() => {
 })
 
 const activeSideMenu = computed(() => {
-  if (route.name === RoutesMap.chat.c || route.name === RoutesMap.resource) {
+  if (
+    route.name === RoutesMap.chat.c ||
+    route.name === RoutesMap.home.homeResource ||
+    route.name === RoutesMap.resource
+  ) {
     return route.name
   } else if (/^(tranning|manager).*/.test(route.name as string)) {
     return RoutesMap.manager.center

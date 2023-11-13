@@ -143,7 +143,6 @@
             >
           </p>
         </div>
-
         <div
           v-for="item in footerQrCode"
           :key="item.label"

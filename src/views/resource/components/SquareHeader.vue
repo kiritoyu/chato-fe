@@ -7,7 +7,7 @@
       {{ $t('也可以上传素材资料，创建与众不同的专属助理机器人') }}
     </p>
     <el-button type="primary" size="large" class="mr-4" @click="handleGoChat">
-      {{ $t('立即对话') }}
+      {{ $t('与Chato对话') }}
     </el-button>
     <el-button type="primary" class="relative" size="large" @click="handeGoCreate">
       <span
@@ -37,11 +37,8 @@ const { chatList } = storeToRefs(chatStoreI)
 
 const handleGoChat = () => {
   const name = RoutesMap.home.homeChat
-  // route.name === RoutesMap.home.homeResource ? RoutesMap.home.homeChat : RoutesMap.chat.c
-  // console.log(RoutesMap.home.homeChat)
-  // console.log(RoutesMap.chat.c)
-  // console.log(RoutesMap.home.homeResource)
-  // console.log(route.name)
+  //route.name === RoutesMap.home.homeChat ? RoutesMap.home.homeChat : RoutesMap.chat.resource
+
   router.push({
     name,
     params: {

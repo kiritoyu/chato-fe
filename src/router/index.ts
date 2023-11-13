@@ -1,4 +1,3 @@
-import useCheckDomain from '@/composables/useCheckDomain'
 import usePageTitle from '@/composables/usePageTitle'
 import useRoleCheck from '@/composables/useRoleCheck'
 import useSidebar from '@/composables/useSidebar'
@@ -6,10 +5,9 @@ import { useAuthStore } from '@/stores/auth'
 import Sensors from '@/utils/sensors'
 import { locationComToCn } from '@/utils/url'
 import { nextTick } from 'vue'
-import { createRouter, createWebHistory, RouterView } from 'vue-router'
+import { RouterView, createRouter, createWebHistory, type RouteRecordRaw } from 'vue-router'
 
 export const RoutesMap = {
-  sample_chat: 'sample_chat', /////////
   home: {
     homeName: 'home',
     index: 'homeIndex',
@@ -31,7 +29,8 @@ export const RoutesMap = {
     chatName: 'chat',
     release: 'chatRelease',
     c: 'chatC',
-    homeC: 'chatHomeC'
+    homeC: 'chatHomeC',
+    resource: 'resource'
   },
   resource: 'resource',
   tranning: {
@@ -80,11 +79,6 @@ const coreRoutes = [
         path: 'case',
         component: () => import('@/views/home/case.vue')
       },
-      ...Array.from({ length: 100 }, (_, i) => i + 1).map((i) => ({
-        name: 'sample_chat' + i,
-        path: 'sample_chat' + i,
-        component: () => import('@/views/home/sample_chat.vue')
-      })),
       {
         name: RoutesMap.home.homeResource,
         path: 'square',
@@ -203,6 +197,11 @@ const chatRoutes = [
     },
     children: [
       {
+        name: RoutesMap.home.homeResource,
+        path: 'bot/square',
+        component: () => import('@/views/home/homeResource.vue')
+      },
+      {
         name: RoutesMap.chat.c,
         path: 'bot/:botSlug',
         // meta: { title: '聊天' },
@@ -283,7 +282,7 @@ const managerRoutes = [
       },
       {
         name: RoutesMap.manager.create,
-        path: 'create/:botId?/:opt?',
+        path: 'create/:botId?/:opt?/:botSlug?',
         component: () => import('@/views/manage/BotCreate.vue')
       },
       {
@@ -386,17 +385,18 @@ const router = createRouter({
     ...inviteMember,
     ...namespaceSwitch,
     ...finalRoutes
-  ] as any
+  ] as RouteRecordRaw[]
 })
 
 router.beforeEach((to) => {
+  console.log(to)
   const { drawerVisible } = useSidebar()
   drawerVisible.value = false
 
   locationComToCn()
   useRoleCheck(to)
   usePageTitle(to.meta?.title)
-  useCheckDomain(to)
+  // useCheckDomain(to)
   const authStoreI = useAuthStore()
   if (to.meta.requiresAuth && !authStoreI.authToken) {
     let query
