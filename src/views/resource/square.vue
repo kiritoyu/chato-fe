@@ -1,5 +1,5 @@
 <template>
-  <div class="overflow-y-auto h-full">
+  <div class="overflow-y-auto h-full w-full">
     <Topbar
       v-if="requiredTopbar"
       title=""
