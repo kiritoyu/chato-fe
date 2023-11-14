@@ -1,9 +1,9 @@
 <template>
-  <div class="overflow-y-auto h-full">
+  <div class="overflow-y-auto h-full w-full">
     <Topbar v-if="requiredTopbar" title="" class="h-0 md:!h-16" />
     <SquareHeader :requiredTopbar="requiredTopbar" v-if="requiredTopbar" />
     <ContentLayout
-      class="!overflow-hidden !h-auto"
+      class="!overflow-hidden !h-auto w-full"
       v-loading="initing"
       element-loading-background="transparent"
     >
