@@ -3,7 +3,7 @@
     <Topbar v-if="requiredTopbar" title="" class="h-0 md:!h-16" />
     <SquareHeader :requiredTopbar="requiredTopbar" v-if="requiredTopbar" />
     <ContentLayout
-      class="!overflow-hidden !h-auto w-full"
+      class="!overflow-hidden !h-auto"
       v-loading="initing"
       element-loading-background="transparent"
     >
